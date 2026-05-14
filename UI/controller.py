@@ -48,11 +48,35 @@ class Controller:
 
     # this is the control for the first version of the function search_country...
     def search_country_reachable(self, e):
-        pass
+        self._view._txt_result.clean()
+        country_reachable = self._model.search_leaked_country_source(self.source_country)
+
+        # info about the nodes reachable
+        self._view._txt_result.controls.append(
+            ft.Text(value="Below there are the info regard the nodes reachable")
+        )
+        for country in country_reachable:
+            self._view._txt_result.controls.append(
+                ft.Text(value=f"{country}")
+            )
+
+        self._view.update_page()
 
     # this is the control for the second version of the function search_country...
     def search_country_reachable_version_2(self, e):
-        pass
+        self._view._txt_result.clean()
+        country_reachable = self._model.search_leaked_country_source_version_2(self.source_country)
+
+        # info about the nodes reachable
+        self._view._txt_result.controls.append(
+            ft.Text(value="Below there are the info regard the nodes reachable")
+        )
+        for country in country_reachable:
+            self._view._txt_result.controls.append(
+                ft.Text(value=f"{country}")
+            )
+
+        self._view.update_page()
 
     def fill_DDBCountry(self):
         for n in self._model.get_nodes():
@@ -62,7 +86,7 @@ class Controller:
         )
 
     def get_source_country(self, e):
-        self.source_country = e.control.data()
+        self.source_country = e.control.data
 
     def controlYear(self, year: str) -> bool:
         if year == "":

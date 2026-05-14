@@ -43,12 +43,39 @@ class Model:
 
 # second part
 
+
     # this is the first way to search the country that are reachable from the source
     # is the simplest one
     def search_leaked_country_source(self, country: Country):
-        pass
+        tree = dfs_tree(self._graph, country)
+        return tree.nodes()
+
 
     # this is the second way to search the country that are reachable from the source
     # is the one that is more difficult than the first version
     def search_leaked_country_source_version_2(self, country: Country):
-        pass
+        # the setting of the variable
+        visited_country = []
+        unvisited_country = [country]
+        present_country = country
+        self.recursive_function(present_country = present_country, visited_country = visited_country,
+                                unvisited_country = unvisited_country)
+
+
+    def recursive_function(self, present_country: Country, unvisited_country: list,
+                           visited_country: list):
+        # terminal condition
+        if not unvisited_country:
+            return visited_country
+        # recursive condition
+        else:
+            unvisited_country.remove(present_country)
+            visited_country.append(present_country)
+            neighbors = list(self._graph.neighbors(present_country))
+            unvisited_country.append(neighbors)
+            for node in neighbors:
+                if node not in visited_country:
+                    self.recursive_function(present_country = node, unvisited_country = unvisited_country,
+                                            visited_country = visited_country)
+                else:
+                    pass

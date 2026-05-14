@@ -33,10 +33,10 @@ class View(ft.UserControl):
         self._page.controls.append(row1)
 
         #ROW 2 with search control
-        self._DDBCountry = ft.Dropdown(value = "country", disabled = True)
+        self._DDBCountry = ft.Dropdown(label = "Country", disabled = True)
         self._buttonCountrySource = ft.ElevatedButton(text = "search county reachable",
                                                       disabled = True,
-                                                      on_click = self._controller.search_country_reachable)
+                                                      on_click = self._controller.search_country_reachable_version_2)
         row2 = ft.Row(controls = [self._DDBCountry, self._buttonCountrySource],
                       alignment = ft.MainAxisAlignment.CENTER)
         self._page.controls.append(row2)

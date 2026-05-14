@@ -1,5 +1,7 @@
 import flet as ft
 
+from model.country import Country
+
 
 class Controller:
     def __init__(self, view, model):
@@ -9,15 +11,58 @@ class Controller:
         self._model = model
         # value that are received from the user
         self.year = None
+        self.source_country = None
 
     def handleCalcola(self, e):
+        self._view._txt_result.clean()
         # I have to control the info that are given from the user
         if not self.controlYear(self._view._txtAnno.value):
             return
 
-        ...
         # creation of the graph
+        self._model.create_graph(self.year)
+        # info that are given to the user
+        self._view._txt_result.controls.append(
+            ft.Text(value = "The graph is come out well", color = "blue")
+        )
+        # info of the linked component
+        self._view._txt_result.controls.append(
+            ft.Text(value = f"The graph has {self._model.get_number_linked_component()} linked component",
+                    color="blue")
+        )
+        # info about the nodes of the graph
+        self._view._txt_result.controls.append(
+            ft.Text(value = "Below there are the info regard the nodes")
+        )
+        for info in self._model.get_nodes_info():
+            self._view._txt_result.controls.append(
+                ft.Text(value = f"{info[0]} -- {info[1]} vicini.")
+            )
+
+        # when the graph is present, the search control of the view are be able to be allowed
+        self._view._DDBCountry.disabled = False
+        self.fill_DDBCountry()
+        self._view._buttonCountrySource.disabled = False
+
+        self._view.update_page()
+
+    # this is the control for the first version of the function search_country...
+    def search_country_reachable(self, e):
         pass
+
+    # this is the control for the second version of the function search_country...
+    def search_country_reachable_version_2(self, e):
+        pass
+
+    def fill_DDBCountry(self):
+        for n in self._model.get_nodes():
+            self._view._DDBCountry.options.append(ft.dropdown.Option( key = n.stato,
+                                                                      data = n,
+                                                                      on_click = self.get_source_country)
+        )
+
+    def get_source_country(self, e):
+        self.source_country = e.control.data()
 
     def controlYear(self, year: str) -> bool:
         if year == "":

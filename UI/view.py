@@ -1,5 +1,7 @@
 import flet as ft
 
+from model.country import Country
+
 
 class View(ft.UserControl):
     def __init__(self, page: ft.Page):
@@ -15,6 +17,8 @@ class View(ft.UserControl):
         self._title = None
         self._txtAnno = None
         self._btnCalculate = None
+        self._DDBCountry = None
+        self._buttonCountrySource = None
         self._txt_result = None
 
     def load_interface(self):
@@ -28,10 +32,20 @@ class View(ft.UserControl):
         row1 = ft.Row([self._txtAnno, self._btnCalculate], alignment=ft.MainAxisAlignment.CENTER)
         self._page.controls.append(row1)
 
+        #ROW 2 with search control
+        self._DDBCountry = ft.Dropdown(value = "country", disabled = True)
+        self._buttonCountrySource = ft.ElevatedButton(text = "search county reachable",
+                                                      disabled = True,
+                                                      on_click = self._controller.search_country_reachable)
+        row2 = ft.Row(controls = [self._DDBCountry, self._buttonCountrySource],
+                      alignment = ft.MainAxisAlignment.CENTER)
+        self._page.controls.append(row2)
+
         # List View where the reply is printed
         self._txt_result = ft.ListView(expand=1, spacing=10, padding=20, auto_scroll=False)
         self._page.controls.append(self._txt_result)
         self._page.update()
+
 
     @property
     def controller(self):

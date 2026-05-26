@@ -12,6 +12,10 @@ class Model:
         self._graph = nx.Graph()
         self._nodes = []
 
+        # object related to the recursive function
+        self._visited_country = None
+        # self._unvisited_country = None
+
 
     def create_graph(self, year: int):
         # creation of the graph
@@ -54,28 +58,36 @@ class Model:
     # this is the second way to search the country that are reachable from the source
     # is the one that is more difficult than the first version
     def search_leaked_country_source_version_2(self, country: Country):
-        # the setting of the variable
-        visited_country = []
-        unvisited_country = [country]
-        present_country = country
-        self.recursive_function(present_country = present_country, visited_country = visited_country,
-                                unvisited_country = unvisited_country)
+        # the setting or cleaning of the object related to the recursive function
+        self._visited_country = [country]
 
+        # self._unvisited_country = []
+        # present_country = country
 
-    def recursive_function(self, present_country: Country, unvisited_country: list,
-                           visited_country: list):
+        neighbors = self._graph.neighbors(country)
+        for node in neighbors:
+            # control for the performance
+            if node not in self._visited_country:
+                self._visited_country.append(node)
+                self.recursive_function(node)
+
+    def recursive_function(self, country: Country):
         # terminal condition
-        if not unvisited_country:
-            return visited_country
+        ...
         # recursive condition
-        else:
-            unvisited_country.remove(present_country)
-            visited_country.append(present_country)
-            neighbors = list(self._graph.neighbors(present_country))
-            unvisited_country.append(neighbors)
-            for node in neighbors:
-                if node not in visited_country:
-                    self.recursive_function(present_country = node, unvisited_country = unvisited_country,
-                                            visited_country = visited_country)
-                else:
-                    pass
+        ...
+        neighbors = self._graph.neighbors(country)
+        for node in neighbors:
+            # control for the performance
+            if node not in self._visited_country:
+                self._visited_country.append(node)
+                self.recursive_function(node)
+
+
+
+
+
+
+
+    def get_visited_country(self):
+        return self._visited_country

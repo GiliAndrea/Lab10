@@ -65,7 +65,8 @@ class Controller:
     # this is the control for the second version of the function search_country...
     def search_country_reachable_version_2(self, e):
         self._view._txt_result.clean()
-        country_reachable = self._model.search_leaked_country_source_version_2(self.source_country)
+        self._model.search_leaked_country_source_version_2(self.source_country)
+        country_reachable = self._model.get_visited_country()
 
         # info about the nodes reachable
         self._view._txt_result.controls.append(
